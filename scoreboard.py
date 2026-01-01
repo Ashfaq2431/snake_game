@@ -1,21 +1,32 @@
 from turtle import Turtle
 
-class Scoreboard(Turtle):
+class Score(Turtle):
     def __init__(self):
         super().__init__()
-        self.hideturtle()
+        self.score = 0
+        with open('data.txt', 'r') as file:
+            self.high_score = int(file.read())
         self.penup()
+        self.hideturtle()
+        self.goto(0, 270)
         self.color("white")
-        self.score=0
-        self.goto(0,270)
-        self.write(f"score:{self.score}", align="center", font=('Arial', 15, "normal"))
+        self.write(f"SCORE:{self.score} HIGH SCORE:{self.high_score}",align='center',font=("courier",24,"normal"))
+
+    def add(self):
+        self.clear()
+        self.write(f"SCORE:{self.score} HIGH SCORE:{self.high_score}",align='center',font=("courier",24,"normal"))
+
+    def reset(self):
+        if self.score > self.high_score:
+            self.high_score = self.score
+            with open('data.txt','w') as file:
+                file.write(f'{self.high_score}')
+        self.score = 0
+        self.add()
 
     def increase(self):
-        self.score+=1
-        self.clear()
-        self.write(f"score:{self.score}", align="center", font=('Arial', 15, "normal"))
+        self.score += 1
+        self.add()
 
-    def game_over(self):
-        self.goto(0,0)
-        self.write(f"GAME OVER", align="center", font=('Arial', 15, "normal"))
+
 
